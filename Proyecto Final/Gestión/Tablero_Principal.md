@@ -4,65 +4,65 @@ kanban-plugin: board
 
 ---
 
-## Pendiente
+## 🔷 Fase 1: Modelado de Planta (H1 — 10 Jun)
 
-- [ ] [[Definición de Requerimientos]]
-- [ ] Definición del Modelo matemático del sistema
-- [ ] Implementación de Modelo del sistema en Simulink
-- [ ] Identificación de parámetros del sistema
-- [ ] Pruebas de consistencia del modelo
-- [ ] Generación de modelo visual para tests
-- [ ] Definición de sensores
-- [ ] Definición de Modelo de sensores
-- [ ] Implementación de modelo de los sensores
-- [ ] Identificación de parámetros de los sensores
-- [ ] Pruebas de consistencia de modelo de sensores
-- [ ] Definición de actuadores
-- [ ] Definición de modelo de actuadores
-- [ ] Identificación de parámetros de actuadores
-- [ ] Implementación del modelo de actuadores
-- [ ] Pruebas de consistencia de modelo de actuadores
-- [ ] Definición de ruido de sensores
-- [ ] Prueba de sensores con ruido
-- [ ] Definición de ruido en los actuadores
-- [ ] Prueba de ruido en los actuadores
-- [ ] Modelo completo del sistema con sensores y actuadores. Implementación de saturadores
-- [ ] Pruebas de consistencia del modelo completo
-- [ ] Definición de estrategía de linealización del modelo
-- [ ] Implementar linealización del modelo ideal
-- [ ] Definición de la estrategía/s de control apropiadas para el modelo de la planta
-- [ ] Implementación de estrategías de control
-- [ ] Pruebas de consistencia de las estrategías de control con dummy values
-- [ ] Sintonización de controladores
-- [ ] Comparación de controladores
-- [ ] Definición de observadores
-- [ ] Implementación de observadores
-- [ ] Comparación de controladores
-- [ ] Comparación de controladores en planta real
-- [ ] Definición de filtros
-- [ ] Implementación de filtros sobre sensores atómicos
-- [ ] Prueba de consistencia de modelos de filtros
-- [ ] Incorporación de filtros en planta
-- [ ] Comparación de controladores en planta
-- [ ] Discretización de controlador
-- [ ] Comparación de controladores discretizados
-- [ ] Verificación de cumplimiento de requerimientos de la aplicaicón
-- [ ] Definición de métricas de desempeño del controlador
-- [ ] Verificación de desempeño de controladores para trayectoria dummy
+- [ ] Leer referencias AUV (Lolo paper, Fossen, Holm tesis)
+- [ ] Derivar modelo matemático 6-DOF
+- [ ] Obtener/estimar coeficientes hidrodinámicos
+- [ ] Implementar dinámica no-lineal en Simulink
+- [ ] Pruebas lazo abierto
+- [ ] Modelar VBS
+- [ ] Documentar modelo
 
+## 🔶 Fase 2: Sensores y Actuadores (H2 — 18 Jun)
 
-## En proceso
+- [ ] Modelar BLDC + hélices CRP
+- [ ] Modelar superficies de control (rudders, elevator)
+- [ ] Modelar AHRS (acel + giro + mag)
+- [ ] Modelar DVL + altímetro + profundidad
+- [ ] Modelar ruido (proceso + medición)
+- [ ] Integrar subsistemas en Simulink
+- [ ] Pruebas de consistencia
 
+## 🔷 Fase 3: Controlador y EKF (H3 — 30 Jun)
 
+- [ ] Elegir puntos de operación para linealización
+- [ ] Linealización Jacobiana (symbolic/numeric)
+- [ ] Verificar controlabilidad y observabilidad
+- [ ] Diseñar LQR base
+- [ ] Implementar gain scheduling
+- [ ] Diseñar EKF
+- [ ] Integrar controlador + EKF en lazo cerrado
 
-## Completado
+## 🔶 Fase 4: Simulación y Validación (H4 — 7 Jul)
 
+- [ ] Prueba hovering
+- [ ] Seguimiento trayectoria exploración
+- [ ] Simulación con ruido sensorial
+- [ ] Perturbaciones ambientales (corriente)
+- [ ] Discretización del controlador
+- [ ] Simulación final completa
+- [ ] Métricas de desempeño
+
+## 🔷 Fase 5: Informe (H5 — 15 Jul)
+
+- [ ] Portada + Resumen
+- [ ] Introducción + Objetivos
+- [ ] Modelo de la Planta
+- [ ] Sensores y Actuadores
+- [ ] Estrategia de Control
+- [ ] Estimación de Estados
+- [ ] Resultados (plots + métricas)
+- [ ] Conclusiones
+- [ ] Referencias + Apéndices
+
+## ⬜ Buffer / Imprevistos
 
 
 
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false],"new-note-folder":"Bitacora","new-note-template":"Bitacora/Plantilla_de_Tareas.md","move-tags":true,"show-checkboxes":true}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false],"new-note-folder":"Bitacora","new-note-template":"Bitacora/Plantilla_de_Tareas.md","move-tags":true,"show-checkboxes":true}
 ```
 %%

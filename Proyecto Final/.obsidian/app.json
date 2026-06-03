@@ -3,11 +3,5 @@
   "newFileLocation": "root",
   "attachmentFolderPath": "Adjuntos",
   "templateFolder": "Plantillas",
-  "dailyNotes": {
-    "enabled": true,
-    "format": "YYYY-MM-DD",
-    "folder": "Diario",
-    "template": "Plantillas/Daily.md"
-  },
   "promptDelete": false
 }

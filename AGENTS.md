@@ -14,9 +14,15 @@ Parcial1_estudiacion/     → exam 1 prep (MATLAB utilities)
 Paricla2_estudiacion/     → exam 2 prep (note the typo in dirname)
 Proyecto Final/           → final project: Maribot LoLo AUV
   Investigación/          → reference papers, anteproyecto, example reports (Pibardos/)
-  Gestión/Tablero_Principal.md → Obsidian kanban (52 tasks)
-  Bitacora/               → task notes per template
-  Informe/                → report stage drafts
+  Gestión/                → project management (kanban, milestones, workflow, consultations)
+    Tablero_Principal.md  → Obsidian kanban (35 tasks, 6 phases)
+    Planificacion.md      → workflow + project status dashboard (THIS FILE)
+    Consultas.md          → professor Q&A log
+    Hitos.md              → 8 milestones with dates & dependencies
+    Plan_de_Trabajo.md    → 35 detailed tasks with estimates
+    Progreso.md           → Dataview dashboard (Obsidian only)
+  Plantillas/             → Daily.md template (note with consultation section)
+  Informe/                → report stage drafts (Typst template + BibTeX)
 ```
 
 ## Final project (active)

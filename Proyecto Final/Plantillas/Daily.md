@@ -9,6 +9,12 @@
 ## ⚠️ Problemas / Bloqueos
 - 
 
+## 💬 Consultas al profesor
+- **Tema:**
+  **Contexto:**
+  **Respuesta:**
+  **Resuelto:** ☐
+
 ## 🔜 Mañana
 - [ ] 
 

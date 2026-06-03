@@ -63,6 +63,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false],"new-note-folder":"Bitacora","new-note-template":"Bitacora/Plantilla_de_Tareas.md","move-tags":true,"show-checkboxes":true}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false],"move-tags":true,"show-checkboxes":true}
 ```
 %%

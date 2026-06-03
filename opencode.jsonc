@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "lsp": true,
+  "instructions": [],
+  "permission": {
+    "skill": "allow",
+    "websearch": "allow",
+    "webfetch": "allow",
+    "todowrite": "allow",
+    "question": "allow"
+  },
+  "mcp": {
+    "Node-RED": {
+      "enabled": false,
+      "type": "local",
+      "command": [
+        "node-red-mcp-server"
+      ],
+      "args": [
+        "--url",
+        "http://100.81.76.177:1880"
+      ]
+    }
+  }
+}

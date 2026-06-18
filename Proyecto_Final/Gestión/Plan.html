@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoLo AUV — Gestión del Proyecto</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f1f5f9;color:#1e293b;padding:20px;max-width:1100px;margin:auto;font-size:14px;line-height:1.5}
+h1{font-size:1.5rem;margin-bottom:2px}
+.subtitle{color:#64748b;font-size:.85rem;margin-bottom:20px}
+h2{font-size:1.1rem;margin:24px 0 12px;padding-bottom:6px;border-bottom:2px solid #e2e8f0}
+section{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+code{background:#f1f5f9;padding:1px 6px;border-radius:4px;font-size:.85rem}
+
+.workflow ol{padding-left:20px;margin:8px 0}
+.workflow li{margin:4px 0}
+
+.progress-bar{margin:8px 0}
+.progress-label{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:2px;color:#475569}
+.progress-track{height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden}
+.progress-fill{height:100%;border-radius:5px;transition:width .3s}
+.fill-h0{background:#22c55e}
+.fill-h1{background:#3b82f6}
+.fill-h2{background:#f59e0b}
+.fill-h3{background:#8b5cf6}
+.fill-h4{background:#ec4899}
+.fill-h5{background:#06b6d4}
+.fill-general{background:#64748b}
+
+.current-tasks{margin:12px 0 0;padding:10px 14px;background:#fef9c3;border-radius:8px;border:1px solid #fde68a}
+.current-tasks h3{font-size:.85rem;margin-bottom:6px;color:#92400e}
+
+table{width:100%;border-collapse:collapse;margin:6px 0}
+th{text-align:left;padding:6px 8px;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:#64748b;border-bottom:1px solid #e2e8f0}
+td{padding:6px 8px;border-bottom:1px solid #f1f5f9;font-size:.85rem}
+tr:hover td{background:#f8fafc}
+
+select.task-status{border:1px solid #e2e8f0;border-radius:5px;padding:2px 6px;font-size:.8rem;cursor:pointer;background:#fff}
+select.task-status:focus{outline:2px solid #3b82f6;outline-offset:1px}
+.s-pendiente{color:#ef4444;font-weight:500}
+.s-en-curso{color:#d97706;font-weight:500}
+.s-terminada{color:#16a34a;font-weight:500}
+
+.badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.75rem;font-weight:500}
+.badge-h0{background:#dcfce7;color:#15803d}
+.badge-h1{background:#dbeafe;color:#1d4ed8}
+.badge-h2{background:#fef3c7;color:#b45309}
+.badge-h3{background:#ede9fe;color:#6d28d9}
+.badge-h4{background:#fce7f3;color:#be185d}
+.badge-h5{background:#cffafe;color:#0e7490}
+.badge-h6{background:#f1f5f9;color:#475569}
+
+details.hito{margin:8px 0;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
+details.hito summary{padding:10px 14px;cursor:pointer;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:8px;background:#f8fafc}
+details.hito summary:hover{background:#f1f5f9}
+details.hito[open] summary{border-bottom:1px solid #e2e8f0}
+details.hito .hito-body{padding:6px 14px 12px}
+.hito-status{font-size:.75rem;font-weight:500;padding:2px 8px;border-radius:10px}
+.hito-status.done{background:#dcfce7;color:#15803d}
+.hito-status.ongoing{background:#fef3c7;color:#b45309}
+.hito-status.pending{background:#e2e8f0;color:#64748b}
+
+a{color:#2563eb;text-decoration:none}
+a:hover{text-decoration:underline}
+
+.view-toggle{display:flex;gap:4px;margin-bottom:10px}
+.view-toggle button{padding:5px 14px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;font-size:.8rem;color:#64748b}
+.view-toggle button.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.view-toggle button:hover:not(.active){background:#f1f5f9}
+
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.kanban-col{border-radius:8px;padding:10px;min-height:100px}
+.kanban-col h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;padding-bottom:4px;border-bottom:2px solid}
+.kanban-col.pendiente{background:#fef2f2}
+.kanban-col.pendiente h3{color:#dc2626;border-color:#fca5a5}
+.kanban-col.en-curso{background:#fffbeb}
+.kanban-col.en-curso h3{color:#d97706;border-color:#fcd34d}
+.kanban-col.terminada{background:#f0fdf4}
+.kanban-col.terminada h3{color:#16a34a;border-color:#86efac}
+.kanban-card{background:#fff;border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:.8rem;box-shadow:0 1px 2px rgba(0,0,0,.06);border:1px solid #e2e8f0}
+.kanban-card .k-id{font-weight:600;color:#3b82f6;font-size:.75rem}
+.kanban-card .k-name{display:block;margin:2px 0}
+.kanban-card .k-meta{font-size:.75rem;color:#64748b}
+
+.req-checkbox{width:18px;height:18px;cursor:pointer;accent-color:#22c55e}
+
+.links-table td:first-child{font-weight:500;white-space:nowrap}
+.links-table td:last-child{color:#64748b;font-size:.8rem}
+
+@media(max-width:640px){.kanban{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🤖 Maribot LoLo — Gestión del Proyecto</h1>
+<p class="subtitle">Control y Sistemas · Facultad de Ingeniería, UNCuyo · Juan Borquez</p>
+</header>
+
+<section class="workflow">
+<h2>🗺️ Flujo de trabajo</h2>
+<ol>
+<li>Abrir este archivo → revisar <strong>📊 Progreso</strong></li>
+<li>Elegir una tarea del hito activo (📋 Hitos)</li>
+<li>Trabajar en <strong>Simulink / MATLAB / Typst</strong></li>
+<li>Cambiar estado de la tarea con el dropdown (☐ → 🔄 → ✅)</li>
+<li>Si surge consulta → <code>bash Proyecto\ Final/consultas.sh</code></li>
+<li>Cerrar sesión → <code>bash git-session-commit.sh</code></li>
+</ol>
+</section>
+
+<section id="dashboard"><h2>📊 Progreso</h2><div id="progress"></div></section>
+<section id="hitos"><h2>📋 Hitos</h2><div id="hitos-container"></div></section>
+
+<section id="tasks-by-status">
+<h2>📌 Tareas por estado</h2>
+<div class="view-toggle">
+<button class="active" data-view="table">▦ Tabla</button>
+<button data-view="kanban">🗂 Kanban</button>
+</div>
+<div id="tasks-view"></div>
+</section>
+
+<section id="requirements"><h2>✅ Requerimientos</h2><div id="req-container"></div></section>
+
+<section id="links">
+<h2>🔗 Links rápidos</h2>
+<table class="links-table">
+<tr><td>📄 Requerimientos</td><td><a href="../Requerimientos.md">Requerimientos.md</a></td></tr>
+<tr><td>📋 Consultas al profesor</td><td><a href="Consultas.md">Consultas.md</a> · <code>bash Proyecto\ Final/consultas.sh</code></td></tr>
+<tr><td>⚙️ Parámetros LoLo</td><td><a href="../Investigación/Fuentes/Parametros_LoLo.md">Parametros_LoLo.md</a></td></tr>
+<tr><td>📁 Simulink — Planta</td><td><a href="../Simulink/01_PlantModel/">01_PlantModel/</a></td></tr>
+<tr><td>📁 Simulink — Sensores</td><td><a href="../Simulink/02_Sensors/">02_Sensors/</a></td></tr>
+<tr><td>📁 Simulink — Actuadores</td><td><a href="../Simulink/03_Actuators/">03_Actuators/</a></td></tr>
+<tr><td>📁 Simulink — Controlador</td><td><a href="../Simulink/04_Controller/">04_Controller/</a></td></tr>
+<tr><td>📁 Simulink — EKF</td><td><a href="../Simulink/05_EKF/">05_EKF/</a></td></tr>
+<tr><td>📁 Simulink — Escenarios</td><td><a href="../Simulink/06_Scenarios/">06_Scenarios/</a></td></tr>
+<tr><td>📁 Simulink — Resultados</td><td><a href="../Simulink/resultados/">resultados/</a></td></tr>
+<tr><td>📄 Informe (Typst)</td><td><a href="../Informe/Plantilla_Informe.typ">Plantilla_Informe.typ</a></td></tr>
+<tr><td>📚 Referencias BibTeX</td><td><a href="../Informe/refs.bib">refs.bib</a></td></tr>
+<tr><td>📁 Anteproyecto</td><td><a href="../Investigación/Anteproyecto_Control_y_Sistemas_BORQUEZ_v2.pdf">PDF v2</a></td></tr>
+<tr><td>🚀 Script commit</td><td><code>bash git-session-commit.sh</code></td></tr>
+<tr><td>🤖 Instrucciones IA</td><td><a href="../../AGENTS.md">AGENTS.md</a></td></tr>
+</table>
+</section>
+
+<script>
+const HITOS = [
+  {id:'H0',nombre:'Fundación',fecha:'31 May',deps:'—',entregable:'Repo configurado, herramientas listas',estado:'done',semana:'S1'},
+  {id:'H1',nombre:'Modelo dinámico del AUV en Simulink validado',fecha:'10 Jun',deps:'H0',entregable:'Modelo en lazo abierto verificado',estado:'ongoing',semana:'S1-S3'},
+  {id:'H2',nombre:'Sensores, actuadores y ruido completos',fecha:'18 Jun',deps:'H1',entregable:'Planta completa con sensores/actuadores',estado:'pending',semana:'S3-S4'},
+  {id:'H3',nombre:'Controlador LQR + gain scheduling + EKF',fecha:'30 Jun',deps:'H2',entregable:'Sistema en lazo cerrado funcional',estado:'pending',semana:'S4-S6'},
+  {id:'H4',nombre:'Simulación final con perturbaciones',fecha:'7 Jul',deps:'H3',entregable:'Resultados de simulación completos',estado:'pending',semana:'S6-S7'},
+  {id:'H5',nombre:'Informe final en Typst',fecha:'15 Jul',deps:'H4',entregable:'PDF listo para revisión',estado:'pending',semana:'S7-S8'},
+  {id:'H6',nombre:'Buffer + entrega final',fecha:'17-19 Jul',deps:'H5',entregable:'PDF + archivos fuente',estado:'pending',semana:'S8'}
+];
+
+const TAREAS = [
+  {id:'H0.1',hito:'H0',nombre:'Crear AGENTS.md',est:'1h',deps:'—',docs:'AGENTS.md'},
+  {id:'H0.2',hito:'H0',nombre:'Configurar Obsidian (plugins, app.json)',est:'1h',deps:'—',docs:'.obsidian/'},
+  {id:'H0.3',hito:'H0',nombre:'Instalar Typst',est:'30m',deps:'—',docs:'—'},
+  {id:'H0.4',hito:'H0',nombre:'Crear consultas.sh',est:'1h',deps:'—',docs:'consultas.sh'},
+  {id:'H0.5',hito:'H0',nombre:'Crear git-session-commit.sh',est:'30m',deps:'—',docs:'git-session-commit.sh'},
+  {id:'H0.6',hito:'H0',nombre:'Crear Plan.html (gestión unificada)',est:'2h',deps:'—',docs:'Gestión/Plan.html'},
+  {id:'H1.1',hito:'H1',nombre:'Leer referencias AUV (Fossen, LoLo, Holm)',est:'2d',deps:'—',docs:'Investigación/Fuentes/'},
+  {id:'H1.2',hito:'H1',nombre:'Derivar modelo matemático 6-DOF',est:'2d',deps:'H1.1',docs:'Simulink/01_PlantModel/'},
+  {id:'H1.3',hito:'H1',nombre:'Obtener/estimar coeficientes hidrodinámicos',est:'1d',deps:'H1.1',docs:'Parametros_LoLo.md'},
+  {id:'H1.4',hito:'H1',nombre:'Implementar dinámica no-lineal en Simulink',est:'2d',deps:'H1.2',docs:'Simulink/01_PlantModel/'},
+  {id:'H1.5',hito:'H1',nombre:'Pruebas lazo abierto (thrust, superficies)',est:'1d',deps:'H1.4',docs:'Simulink/resultados/'},
+  {id:'H1.6',hito:'H1',nombre:'Modelar VBS (flotabilidad variable)',est:'1d',deps:'H1.2',docs:'Simulink/01_PlantModel/'},
+  {id:'H1.7',hito:'H1',nombre:'Documentar modelo para informe',est:'1d',deps:'H1.5,H1.6',docs:'—'},
+  {id:'H2.1',hito:'H2',nombre:'Modelar BLDC + hélices CRP',est:'2d',deps:'—',docs:'Simulink/03_Actuators/'},
+  {id:'H2.2',hito:'H2',nombre:'Modelar superficies de control (rudders, elevator)',est:'1d',deps:'H2.1',docs:'Simulink/03_Actuators/'},
+  {id:'H2.3',hito:'H2',nombre:'Modelar AHRS (acel + giro + mag)',est:'1d',deps:'—',docs:'Simulink/02_Sensors/'},
+  {id:'H2.4',hito:'H2',nombre:'Modelar DVL + altímetro + profundidad',est:'1d',deps:'H2.3',docs:'Simulink/02_Sensors/'},
+  {id:'H2.5',hito:'H2',nombre:'Modelar ruido (proceso + medición)',est:'1d',deps:'—',docs:'Simulink/02_Sensors/'},
+  {id:'H2.6',hito:'H2',nombre:'Integrar subsistemas en Simulink',est:'1d',deps:'H2.2,H2.4,H2.5',docs:'Simulink/'},
+  {id:'H2.7',hito:'H2',nombre:'Pruebas de consistencia',est:'1d',deps:'H2.6',docs:'Simulink/resultados/'},
+  {id:'H3.1',hito:'H3',nombre:'Elegir puntos de operación para linealización',est:'1d',deps:'H1.5',docs:'Simulink/04_Controller/'},
+  {id:'H3.2',hito:'H3',nombre:'Linealización Jacobiana en cada punto',est:'2d',deps:'H3.1',docs:'Simulink/04_Controller/'},
+  {id:'H3.3',hito:'H3',nombre:'Verificar controlabilidad y observabilidad',est:'1d',deps:'H3.2',docs:'Simulink/04_Controller/'},
+  {id:'H3.4',hito:'H3',nombre:'Diseñar LQR base (1 punto)',est:'2d',deps:'H3.3',docs:'Simulink/04_Controller/'},
+  {id:'H3.5',hito:'H3',nombre:'Implementar gain scheduling',est:'2d',deps:'H3.4',docs:'Simulink/04_Controller/'},
+  {id:'H3.6',hito:'H3',nombre:'Diseñar EKF para fusión sensorial',est:'2d',deps:'H2.5',docs:'Simulink/05_EKF/'},
+  {id:'H3.7',hito:'H3',nombre:'Integrar controlador + EKF en lazo cerrado',est:'2d',deps:'H3.5,H3.6',docs:'Simulink/'},
+  {id:'H4.1',hito:'H4',nombre:'Prueba hovering (posición fija)',est:'1d',deps:'H3.7',docs:'Simulink/resultados/'},
+  {id:'H4.2',hito:'H4',nombre:'Seguimiento trayectoria exploración',est:'1d',deps:'H3.7',docs:'Simulink/06_Scenarios/'},
+  {id:'H4.3',hito:'H4',nombre:'Simulación con ruido sensorial',est:'1d',deps:'H4.1',docs:'Simulink/resultados/'},
+  {id:'H4.4',hito:'H4',nombre:'Perturbaciones ambientales (corriente)',est:'1d',deps:'H4.2',docs:'Simulink/06_Scenarios/'},
+  {id:'H4.5',hito:'H4',nombre:'Discretización del controlador',est:'1d',deps:'H3.7',docs:'Simulink/04_Controller/'},
+  {id:'H4.6',hito:'H4',nombre:'Simulación final con todo incluido',est:'1d',deps:'H4.3,H4.4,H4.5',docs:'Simulink/resultados/'},
+  {id:'H4.7',hito:'H4',nombre:'Métricas de desempeño (RMSE, esfuerzo)',est:'1d',deps:'H4.6',docs:'Simulink/resultados/'},
+  {id:'H5.1',hito:'H5',nombre:'Portada + Resumen',est:'1d',deps:'H4.7',docs:'Informe/'},
+  {id:'H5.2',hito:'H5',nombre:'Introducción + Objetivos',est:'1d',deps:'—',docs:'Informe/'},
+  {id:'H5.3',hito:'H5',nombre:'Modelo de la Planta',est:'1d',deps:'H1.7',docs:'Informe/'},
+  {id:'H5.4',hito:'H5',nombre:'Sensores y Actuadores',est:'1d',deps:'H2.7',docs:'Informe/'},
+  {id:'H5.5',hito:'H5',nombre:'Estrategia de Control',est:'1d',deps:'H3.7',docs:'Informe/'},
+  {id:'H5.6',hito:'H5',nombre:'Estimación de Estados (EKF)',est:'1d',deps:'H3.6',docs:'Informe/'},
+  {id:'H5.7',hito:'H5',nombre:'Resultados (plots + métricas)',est:'1d',deps:'H4.7',docs:'Informe/'},
+  {id:'H5.8',hito:'H5',nombre:'Conclusiones',est:'1d',deps:'H5.7',docs:'Informe/'},
+  {id:'H5.9',hito:'H5',nombre:'Referencias + Apéndices',est:'1d',deps:'H5.8',docs:'Informe/'}
+];
+
+const REQUISITOS = [
+  {id:'RF1',desc:'Hovering estabilizado en 6-DOF',evidencia:'Plot posición vs. tiempo'},
+  {id:'RF2',desc:'Seguimiento de trayectoria 3D (waypoints)',evidencia:'Plot trayectoria 3D + error'},
+  {id:'RF3',desc:'Control con EKF (estados estimados)',evidencia:'Comparación real vs. estimado'},
+  {id:'RF4',desc:'Rechazo a perturbaciones (corriente)',evidencia:'Plot con corriente inyectada'},
+  {id:'RF5',desc:'Controlador discretizado',evidencia:'Comparación continuo vs. discreto'},
+  {id:'RP1',desc:'Error estacionario < 2%',evidencia:'Tabla de métricas por eje'},
+  {id:'RP2',desc:'Settling time < 30 s',evidencia:'Tabla de métricas'},
+  {id:'RP3',desc:'Sobrepico máximo < 15%',evidencia:'Tabla de métricas'},
+  {id:'RP4',desc:'Error RMSE del EKF < σ sensor',evidencia:'RMSE de estimación'},
+  {id:'RP5',desc:'Sin saturación permanente de actuadores',evidencia:'Plot de actuadores en rango'},
+  {id:'RP6',desc:'Error bajo corriente < 5%',evidencia:'Plot con perturbación'}
+];
+
+const LS_TASKS='lolo_task_states',LS_REQS='lolo_req_states',LS_VIEW='lolo_view_mode';
+
+const DEF_TASKS=(()=>{const o={};TAREAS.forEach(t=>{o[t.id]='pendiente'});o['H0.1']='terminada';o['H0.2']='terminada';o['H0.3']='terminada';o['H0.4']='terminada';o['H0.5']='terminada';o['H0.6']='terminada';o['H1.1']='en-curso';return o})();
+
+function ls(k,v){if(v!==undefined){localStorage.setItem(k,JSON.stringify(v));return v}
+try{const d=localStorage.getItem(k);return d?JSON.parse(d):null}catch{return null}}
+
+function taskState(id){const s=ls(LS_TASKS);return s&&s[id]?s[id]:DEF_TASKS[id]||'pendiente'}
+function setTaskState(id,val){const s=ls(LS_TASKS)||{...DEF_TASKS};s[id]=val;ls(LS_TASKS,s);render()}
+
+function reqState(id){const s=ls(LS_REQS);return s?s[id]||false:false}
+function toggleReq(id){const s=ls(LS_REQS)||{};s[id]=!s[id];ls(LS_REQS,s);renderReqs()}
+
+function viewMode(v){if(v!==undefined){ls(LS_VIEW,v);return}return ls(LS_VIEW)||'table'}
+
+function tasksInHito(h){return TAREAS.filter(t=>t.hito===h)}
+function tasksByStatus(s){return TAREAS.filter(t=>taskState(t.id)===s)}
+
+function hitoProgress(h){const ts=tasksInHito(h);return ts.length?Math.round(ts.filter(t=>taskState(t.id)==='terminada').length/ts.length*100):0}
+function generalProgress(){return Math.round(TAREAS.filter(t=>taskState(t.id)==='terminada').length/TAREAS.length*100)}
+
+function sl(s){return s==='pendiente'?'☐ Pendiente':s==='en-curso'?'🔄 En curso':'✅ Terminada'}
+function sc(s){return s==='pendiente'?'s-pendiente':s==='en-curso'?'s-en-curso':'s-terminada'}
+function hsl(e){return e==='done'?'✅ Completado':e==='ongoing'?'🔄 En curso':'📅 Pendiente'}
+
+function renderProgress(){
+  const p=document.getElementById('progress');if(!p)return
+  let h='<div class="progress-bar"><div class="progress-label"><span>General</span><span>'+generalProgress()+'%</span></div><div class="progress-track"><div class="progress-fill fill-general" style="width:'+generalProgress()+'%"></div></div></div>'
+  HITOS.forEach(hh=>{
+    const pr=hitoProgress(hh.id)
+    h+='<div class="progress-bar"><div class="progress-label"><span><span class="badge badge-'+hh.id.toLowerCase()+'">'+hh.id+'</span> '+hh.nombre+'</span><span>'+pr+'%</span></div><div class="progress-track"><div class="progress-fill fill-'+hh.id.toLowerCase()+'" style="width:'+pr+'%"></div></div></div>'
+  })
+  const ec=tasksByStatus('en-curso')
+  if(ec.length){h+='<div class="current-tasks"><h3>🔄 En curso ahora</h3>'
+  ec.forEach(t=>{h+='<div style="font-size:.85rem;margin:3px 0"><strong>'+t.id+'</strong> · '+t.nombre+'</div>'})
+  h+='</div>'}
+  p.innerHTML=h
+}
+
+function renderHitos(){
+  const c=document.getElementById('hitos-container');if(!c)return
+  let h=''
+  HITOS.forEach(hh=>{
+    const ts=tasksInHito(hh.id),pr=hitoProgress(hh.id)
+    h+='<details class="hito" '+(hh.estado==='done'?'':'open')+'><summary><span class="badge badge-'+hh.id.toLowerCase()+'">'+hh.id+'</span> '+hh.nombre+' <span class="hito-status '+hh.estado+'">'+hsl(hh.estado)+'</span> <span style="margin-left:auto;color:#64748b;font-weight:400;font-size:.8rem">'+hh.fecha+' · '+pr+'%</span></summary><div class="hito-body">'
+    h+='<div style="font-size:.8rem;color:#64748b;margin:4px 0 8px">📦 '+hh.entregable+' · Dep: '+hh.deps+' · '+hh.semana+'</div>'
+    if(ts.length){
+      h+='<table><thead><tr><th>ID</th><th>Tarea</th><th>Est.</th><th>Deps.</th><th>Estado</th><th>📄 Docs</th></tr></thead><tbody>'
+      ts.forEach(t=>{
+        const st=taskState(t.id)
+        h+='<tr><td><strong>'+t.id+'</strong></td><td>'+t.nombre+'</td><td>'+t.est+'</td><td>'+t.deps+'</td><td><select class="task-status '+sc(st)+'" onchange="setTaskState(\''+t.id+'\',this.value)"><option value="pendiente" '+(st==='pendiente'?'selected':'')+'>☐ Pendiente</option><option value="en-curso" '+(st==='en-curso'?'selected':'')+'>🔄 En curso</option><option value="terminada" '+(st==='terminada'?'selected':'')+'>✅ Terminada</option></select></td><td>'+(t.docs&&t.docs!=='—'?'<a href="../'+t.docs+'">📄 '+t.docs.split('/').pop()+'</a>':'—')+'</td></tr>'
+      })
+      h+='</tbody></table>'
+    }else{h+='<p style="color:#94a3b8;font-size:.85rem">Sin tareas</p>'}
+    h+='</div></details>'
+  })
+  c.innerHTML=h
+}
+
+function renderTasksByStatus(){
+  const v=document.getElementById('tasks-view');if(!v)return
+  const mode=viewMode(),estados=['pendiente','en-curso','terminada']
+  if(mode==='table'){
+    let h='<table><thead><tr><th>Estado</th><th>ID</th><th>Tarea</th><th>Est.</th><th>Deps.</th><th>📄</th></tr></thead><tbody>'
+    estados.forEach(e=>{tasksByStatus(e).forEach(t=>{h+='<tr><td><span class="'+sc(e)+'">'+sl(e)+'</span></td><td><strong>'+t.id+'</strong></td><td>'+t.nombre+'</td><td>'+t.est+'</td><td>'+t.deps+'</td><td>'+(t.docs&&t.docs!=='—'?'<a href="../'+t.docs+'">📄</a>':'—')+'</td></tr>'})})
+    h+='</tbody></table>';v.innerHTML=h
+  }else{
+    let h='<div class="kanban">'
+    estados.forEach(e=>{const ts=tasksByStatus(e)
+      h+='<div class="kanban-col '+e+'"><h3>'+sl(e)+' ('+ts.length+')</h3>'
+      ts.forEach(t=>{h+='<div class="kanban-card"><span class="k-id">'+t.id+'</span><span class="k-name">'+t.nombre+'</span><span class="k-meta">⏱ '+t.est+' · Dep: '+t.deps+(t.docs&&t.docs!=='—'?' · <a href="../'+t.docs+'">📄</a>':'')+'</span></div>'})
+      h+='</div>'})
+    h+='</div>';v.innerHTML=h
+  }
+}
+
+function renderReqs(){
+  const c=document.getElementById('req-container');if(!c)return
+  let h='<table><thead><tr><th></th><th>ID</th><th>Descripción</th><th>Evidencia</th></tr></thead><tbody>'
+  REQUISITOS.forEach(r=>{const ch=reqState(r.id)
+    h+='<tr><td><input type="checkbox" class="req-checkbox" '+(ch?'checked':'')+' onchange="toggleReq(\''+r.id+'\')"></td><td><strong>'+r.id+'</strong></td><td>'+r.desc+'</td><td style="color:#64748b;font-size:.8rem">'+r.evidencia+'</td></tr>'})
+  h+='</tbody></table><p style="font-size:.8rem;color:#94a3b8;margin-top:4px">'+REQUISITOS.filter(r=>reqState(r.id)).length+'/'+REQUISITOS.length+' cumplidos</p>'
+  c.innerHTML=h
+}
+
+function render(){renderProgress();renderHitos();renderTasksByStatus()}
+
+document.addEventListener('DOMContentLoaded',function(){
+  render();renderReqs()
+  document.querySelectorAll('.view-toggle button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.view-toggle button').forEach(function(b){b.classList.remove('active')})
+      this.classList.add('active');viewMode(this.dataset.view);renderTasksByStatus()
+    })
+  })
+})
+</script>
+</body>
+</html>

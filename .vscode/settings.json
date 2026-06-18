@@ -1,5 +1,13 @@
 {
     "markdown.copyFiles.destination": {
-        "**/Consultas.md": "Proyecto Final/Adjuntos/"
-    }
+        "**/Consultas.md": "Proyecto_Final/Adjuntos/"
+    },
+    "simpleBrowser.focusLockIndicator.enabled": true,
+    "workbench.externalBrowser": "",
+    "remote.extensionKind": {
+        "peakchen90.open-html-in-browser": [
+            "workspace"
+        ]
+    },
+    "openInDefaultBrowser.run.openWithLocalHttpServer": true
 }

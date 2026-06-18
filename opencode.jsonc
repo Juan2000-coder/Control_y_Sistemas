@@ -9,6 +9,12 @@
     "todowrite": "allow",
     "question": "allow"
   },
+  "agent": {
+    "docs-curator": {
+      "disable": false,
+      "prompt": "You are a docs curator. Focus on ensuring documentation is accurate, complete, and up-to-date."
+    }
+  },
   "mcp": {
     "Node-RED": {
       "enabled": false,

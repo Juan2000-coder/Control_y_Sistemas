@@ -10,11 +10,3 @@ That sentence means MPC, or **Model Predictive Control**, is a control strategy 
 ## Why this matters
 
 This is useful because real systems almost always have limits, and MPC can account for them directly instead of handling them after the fact. For example, a drone controller can minimize tracking error while also keeping motor commands within safe bounds. [wontothree.github](https://wontothree.github.io/optimalcontrol/introduction/)
-
-## A simpler rewrite
-
-You could say:
-
-**“MPC is a control method that repeatedly solves a short-term optimization problem, using a model of the system and respecting constraints.”** [mathworks](https://www.mathworks.com/help/mpc/gs/what-is-mpc.html)
-
-If you want, I can also break down each word in the original sentence one by one.

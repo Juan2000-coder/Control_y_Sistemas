@@ -2,8 +2,11 @@
 ## AUV Maribot LoLo — Seguimiento de Trayectorias 3D
 
 > **Proyecto:** Control y Sistemas — Facultad de Ingeniería, UNCuyo
+>
 > **Autor:** Juan Manuel Borquez Perez
+>
 > **Versión:** 1.0
+>
 > **Fecha:** 2026-05-28
 
 ---

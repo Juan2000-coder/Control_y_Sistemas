@@ -5,7 +5,7 @@
 
 set -e
 
-CONSULTAS="Gestión/Consultas.md"
+CONSULTAS="Consultas.md"
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 FILE="$REPO_DIR/$CONSULTAS"
 ADJ_DIR="$REPO_DIR/Adjuntos"

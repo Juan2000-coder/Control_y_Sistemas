@@ -738,6 +738,15 @@ $$\frac{q(t + dt) - q(t)}{dt} = \frac{q(t) \otimes \begin{bmatrix} 0 \\ \frac{\v
 Tomando límite cuando $dt\rightarrow0$ obtenemos
 
 $$\boxed{\dot{q}(t) = \frac{1}{2} q(t) \otimes \begin{bmatrix} 0 \\ \vec{\omega} \end{bmatrix}}$$
+> Convención: cuaternión de Hamilton, escalar primero, $q$ rota de cuerpo a inercial: $a^n=q\otimes a^b\otimes q^*$. La composición $q(t+dt)=q(t)\otimes\delta q$ es una postmultiplicación: el incremento se aplica sobre ejes del cuerpo, por lo que $\vec\omega=\omega^b$.
+
+$$\boxed{\dot q=\tfrac12\,q\otimes\begin{bmatrix}0\\ \omega^b\end{bmatrix}}$$
+
+Si la velocidad angular está en el marco inercial, el incremento se aplica sobre ejes inerciales (premultiplicación): $q(t+dt)=\delta q(\omega^n)\otimes q(t)$, y
+
+$$\boxed{\dot q=\tfrac12\begin{bmatrix}0\\ \omega^n\end{bmatrix}\otimes q}$$
+
+Ambas son equivalentes porque $\omega^n=q\otimes\omega^b\otimes q^*$.
 
 ## Jacobianos geométricos para las convenciones de Euler y para cuaterniones
 > [Ver](#marcos-de-referencia) lo mencionado anteriormente acerca de cómo se miden las magnitudes de movimiento del vehículo y cómo se expresan las magnitudes en los distintos marcos.

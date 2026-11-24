@@ -235,82 +235,120 @@ En algunos papers vimos que los parámetros hidrodinámicos como los de masa añ
 Igual no nos vamos a enfocar en nada de eso. Vamos a elgir un modelo con parámetros y vamos a utilizar ese y chau.
 
 ### Referencia del paper de HRC-AUV para despues
-Es el siguiente ![link](https://www.tandfonline.com/doi/epdf/10.1080/13873954.2012.717226?needAccess=true)
+Es el siguiente [link](https://www.tandfonline.com/doi/epdf/10.1080/13873954.2012.717226?needAccess=true)
+
 ## Prestero
+
 Lo siguiente es el resumen del modelo que propondría el Prestero.
 
 ### **Ecuación matricial compacta**
 
-\\[ \boxed{ M\dot{\nu}+C(\nu)\nu+D(\nu)\nu+g(\eta) = uL\nu+\tau\_{\mathrm{act}} } \\]
+$$
+\boxed{ M\dot{\nu}+C(\nu)\nu+D(\nu)\nu+g(\eta) = uL\nu+\tau_{\mathrm{act}} }
+$$
 
 con:
 
-\\[ \nu= \begin{bmatrix}u&v&w&p&q&r\end{bmatrix}^{T} \\]
+$$
+\nu= \begin{bmatrix}u&v&w&p&q&r\end{bmatrix}^{T}
+$$
 
-### **1. Matriz de masa&#x20;**\\(M\\)
+### **1. Matriz de masa $M$**
 
-\\[ \boxed{M=M\_{RB}+M_A} \\]
+$$
+\boxed{M=M_{RB}+M_A}
+$$
 
 **Masa del cuerpo rígido:**
 
-\\[ M\_{RB}= \begin{bmatrix} m&0&0&0&mz_g&0\\\ 0&m&0&-mz_g&0&mx_g\\\ 0&0&m&0&-mx_g&0\\\ 0&-mz_g&0&I\_{xx}+mz_g^2&0&-mx_gz_g\\\ mz_g&0&-mx_g&0&I\_{yy}+m(x_g^2+z_g^2)&0\\\ 0&mx_g&0&-mx_gz_g&0&I\_{zz}+mx_g^2 \end{bmatrix} \\]
+$$
+M_{RB}= \begin{bmatrix} m&0&0&0&mz_g&0\\ 0&m&0&-mz_g&0&mx_g\\ 0&0&m&0&-mx_g&0\\ 0&-mz_g&0&I_{xx}+mz_g^2&0&-mx_gz_g\\ mz_g&0&-mx_g&0&I_{yy}+m(x_g^2+z_g^2)&0\\ 0&mx_g&0&-mx_gz_g&0&I_{zz}+mx_g^2 \end{bmatrix}
+$$
 
 **Masa añadida:**
 
-\\[ M_A= \begin{bmatrix} a\_{11}&0&0&0&0&0\\\ 0&a\_{22}&0&0&0&a\_{26}\\\ 0&0&a\_{22}&0&-a\_{26}&0\\\ 0&0&0&a\_{44}&0&0\\\ 0&0&-a\_{26}&0&a\_{55}&0\\\ 0&a\_{26}&0&0&0&a\_{55} \end{bmatrix} \\]
+$$
+M_A= \begin{bmatrix} a_{11}&0&0&0&0&0\\ 0&a_{22}&0&0&0&a_{26}\\ 0&0&a_{22}&0&-a_{26}&0\\ 0&0&0&a_{44}&0&0\\ 0&0&-a_{26}&0&a_{55}&0\\ 0&a_{26}&0&0&0&a_{55} \end{bmatrix}
+$$
 
 Se utilizaron las aproximaciones:
 
-\\[ a\_{22}=a\_{33},\qquad a\_{55}=a\_{66},\qquad a\_{26}=-a\_{35}. \\]
+$$
+a_{22}=a_{33},\qquad a_{55}=a_{66},\qquad a_{26}=-a_{35}.
+$$
 
-### **2. Matriz de Coriolis&#x20;**\\(C(\nu)\\)
+### **2. Matriz de Coriolis $C(\nu)$**
 
-\\[ \boxed{C(\nu)=C\_{RB}(\nu)+C_A(\nu)} \\]
+$$
+\boxed{C(\nu)=C_{RB}(\nu)+C_A(\nu)}
+$$
 
 **Coriolis del cuerpo rígido:**
 
-\\[ C\_{RB}= \begin{bmatrix} 0&-S(P\_{RB})\\\ -S(P\_{RB})&-S(H\_{RB}) \end{bmatrix} \\]
+$$
+C_{RB}= \begin{bmatrix} 0&-S(P_{RB})\\ -S(P_{RB})&-S(H_{RB}) \end{bmatrix}
+$$
 
 donde:
 
-\\[ P\_{RB}= \begin{bmatrix} m(u+z_gq)\\\ m(v-z_gp+x_gr)\\\ m(w-x_gq) \end{bmatrix} \\]
+$$
+P_{RB}= \begin{bmatrix} m(u+z_gq)\\ m(v-z_gp+x_gr)\\ m(w-x_gq) \end{bmatrix}
+$$
 
-\\[ H\_{RB}= \begin{bmatrix} (I\_{xx}+mz_g^2)p-mz_gv-mx_gz_gr\\\ (I\_{yy}+m(x_g^2+z_g^2))q+m(z_gu-x_gw)\\\ (I\_{zz}+mx_g^2)r+mx_gv-mx_gz_gp \end{bmatrix} \\]
+$$
+H_{RB}= \begin{bmatrix} (I_{xx}+mz_g^2)p-mz_gv-mx_gz_gr\\ (I_{yy}+m(x_g^2+z_g^2))q+m(z_gu-x_gw)\\ (I_{zz}+mx_g^2)r+mx_gv-mx_gz_gp \end{bmatrix}
+$$
 
 **Coriolis de masa añadida:**
 
-\\[ C_A= \begin{bmatrix} 0&-S(P_A)\\\ -S(P_A)&-S(H_A) \end{bmatrix} \\]
+$$
+C_A= \begin{bmatrix} 0&-S(P_A)\\ -S(P_A)&-S(H_A) \end{bmatrix}
+$$
 
 con:
 
-\\[ P_A= \begin{bmatrix} a\_{11}u\\\ a\_{22}v+a\_{26}r\\\ a\_{22}w-a\_{26}q \end{bmatrix}, \qquad H_A= \begin{bmatrix} a\_{44}p\\\ -a\_{26}w+a\_{55}q\\\ a\_{26}v+a\_{55}r \end{bmatrix}. \\]
+$$
+P_A= \begin{bmatrix} a_{11}u\\ a_{22}v+a_{26}r\\ a_{22}w-a_{26}q \end{bmatrix}, \qquad H_A= \begin{bmatrix} a_{44}p\\ -a_{26}w+a_{55}q\\ a_{26}v+a_{55}r \end{bmatrix}.
+$$
 
 La matriz antisimétrica se define como:
 
-\\[ S(x)= \begin{bmatrix} 0&-x_3&x_2\\\ x_3&0&-x_1\\\ -x_2&x_1&0 \end{bmatrix}. \\]
+$$
+S(x)= \begin{bmatrix} 0&-x_3&x_2\\ x_3&0&-x_1\\ -x_2&x_1&0 \end{bmatrix}.
+$$
 
-### **3. Matriz de drag&#x20;**\\(D(\nu)\\)
+### **3. Matriz de drag $D(\nu)$**
 
-\\[ \boxed{ D(\nu)= \begin{bmatrix} -X\_{u|u|}|u|&0&0&0&0&0\\\ 0&-Y\_{v|v|}|v|&0&0&0&-Y\_{r|r|}|r|\\\ 0&0&-Z\_{w|w|}|w|&0&-Z\_{q|q|}|q|&0\\\ 0&0&0&-K\_{p|p|}|p|&0&0\\\ 0&0&-M\_{w|w|}|w|&0&-M\_{q|q|}|q|&0\\\ 0&-N\_{v|v|}|v|&0&0&0&-N\_{r|r|}|r| \end{bmatrix} } \\]
+$$
+\boxed{ D(\nu)= \begin{bmatrix} -X_{u|u|}|u|&0&0&0&0&0\\ 0&-Y_{v|v|}|v|&0&0&0&-Y_{r|r|}|r|\\ 0&0&-Z_{w|w|}|w|&0&-Z_{q|q|}|q|&0\\ 0&0&0&-K_{p|p|}|p|&0&0\\ 0&0&-M_{w|w|}|w|&0&-M_{q|q|}|q|&0\\ 0&-N_{v|v|}|v|&0&0&0&-N_{r|r|}|r| \end{bmatrix} }
+$$
 
 Representa exclusivamente el drag cuadrático.
 
-### **4. Matriz de lift&#x20;**\\(L\\)
+### **4. Matriz de lift $L$**
 
-\\[ \boxed{ \tau\_{L,\mathrm{ext}}=uL\nu } \\]
+$$
+\boxed{ \tau_{L,\mathrm{ext}}=uL\nu }
+$$
 
-\\[ \boxed{ L= \begin{bmatrix} 0&0&0&0&0&0\\\ 0&Y\_{uv,l}+Y\_{uv,f}&0&0&0&Y\_{ur,f}\\\ 0&0&Z\_{uw,l}+Z\_{uw,f}&0&Z\_{uq,f}&0\\\ 0&0&0&0&0&0\\\ 0&0&M\_{uw,l}+M\_{uw,f}&0&M\_{uq,f}&0\\\ 0&N\_{uv,l}+N\_{uv,f}&0&0&0&N\_{ur,f} \end{bmatrix} } \\]
+$$
+\boxed{ L= \begin{bmatrix} 0&0&0&0&0&0\\ 0&Y_{uv,l}+Y_{uv,f}&0&0&0&Y_{ur,f}\\ 0&0&Z_{uw,l}+Z_{uw,f}&0&Z_{uq,f}&0\\ 0&0&0&0&0&0\\ 0&0&M_{uw,l}+M_{uw,f}&0&M_{uq,f}&0\\ 0&N_{uv,l}+N_{uv,f}&0&0&0&N_{ur,f} \end{bmatrix} }
+$$
 
-Representa las contribuciones de lift del cuerpo y de los fins. Las contribuciones con subíndice \\(a\\) quedan incorporadas en \\(C_A\\).
+Representa las contribuciones de lift del cuerpo y de los fins. Las contribuciones con subíndice $a$ quedan incorporadas en $C_A$.
 
-### **5. Vector hidrostático&#x20;**\\(g(\eta)\\)
+### **5. Vector hidrostático $g(\eta)$**
 
-\\[ \boxed{g(\eta)=-\tau\_{HS}(\eta)} \\]
+$$
+\boxed{g(\eta)=-\tau_{HS}(\eta)}
+$$
 
 Representa las fuerzas y momentos de restauración hidrostática.
 
 ### **6. Vector de actuadores**
 
-\\[ \boxed{ \tau\_{\mathrm{act}}= \begin{bmatrix} X\_{\mathrm{prop}}\\\ Y\_{uu\delta_r}u^2\delta_r\\\ Z\_{uu\delta_s}u^2\delta_s\\\ K\_{\mathrm{prop}}\\\ M\_{uu\delta_s}u^2\delta_s\\\ N\_{uu\delta_r}u^2\delta_r \end{bmatrix} } \\]
+$$
+\boxed{ \tau_{\mathrm{act}}= \begin{bmatrix} X_{\mathrm{prop}}\\ Y_{uu\delta_r}u^2\delta_r\\ Z_{uu\delta_s}u^2\delta_s\\ K_{\mathrm{prop}}\\ M_{uu\delta_s}u^2\delta_s\\ N_{uu\delta_r}u^2\delta_r \end{bmatrix} }
+$$
 
 Representa las acciones de los propulsores y de las superficies de control.

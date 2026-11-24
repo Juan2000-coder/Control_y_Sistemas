@@ -1,5 +1,7 @@
 * La carpeta de [modelado general](./modelado-en-general/) contiene los documentos de Fossen para el modelado general de un AUV
 ## [A Comprehensive Study on Modelling and Control of Autonomous Underwater Vehicle](./5-Paper_modelado_2024.pdf)
+**ESTOS TOMAN EXACTAMENTE LOS MISMOS PARÁMETROS DE PRESTERO**
+**SIRVE PARA MODELAR**
 
 **Descripción:** Estudio de modelado y control de un AUV tipo REMUS, cuya geometría de casco se basa en el perfil de Myring. Utiliza un modelo dinámico no lineal de 6 GDL como punto de partida, pero desarrolla principalmente los controladores sobre modelos linealizados y desacoplados en el plano horizontal para la orientación y para la velocidad de rumbo y en el vertical para controlar el pitch y la profundidad.
 
@@ -27,6 +29,8 @@
 ## [Autonomous Underwater Vehicle Dynamics](./6-Underwater_vehicle_dynamics.pdf) - se puede descartar
 **utilizan el REMUS como vehículo de referencia y realizan una identificación de parámetros mediante LSE, pero la identificación se hace con datos simulados, no con mediciones experimentales del vehículo real.**
 
+**DESCARTAR - sirve solamente como método para identificar los parámetros de un sistema.**
+**NO TOMAN BIEN LOS PARÁMETROS de PRESTERO**
 La fuente principal para los parámetros físicos e hidrodinámicos es [Prestero](./verification-of-a-six-degree-of-freedom-simulation-model-for-4n98272on0.pdf). Las tablas de parámetros físicos e hidrodinámicos (tablas 3, 4 y 5) remiten a ese trabajo.
 
 **Identificación mediante LSE**
@@ -99,7 +103,7 @@ Obtienen un modelo lineal invariante en el tiempo.
 
 **B. Linealización jacobiana: modelo LTV**
 
-Calculan las matrices \\(A(t)\\) y \\(B(t)\\) mediante el jacobiano de las ecuaciones no lineales, evaluándolas en el estado y entrada actuales.
+Calculan las matrices $A(t)$ y $B(t)$ mediante el jacobiano de las ecuaciones no lineales, evaluándolas en el estado y entrada actuales.
 
 Esto permite obtener un modelo lineal variante en el tiempo y considerar diferentes niveles de complejidad en la representación.&#x20;
 
@@ -166,7 +170,7 @@ Algunas conclusiones interesantes:
 - Metodología de validación mediante comparación de respuestas transitorias reales y simuladas.
 
 
-## [Harris](/harris-et-al-2023-stable-nullspace-adaptive-parameter-identification-of-6-degree-of-freedom-plant-and-actuator-models.pdf) et al. (2023) – Stable Nullspace Adaptive Parameter Identification of 6 Degree-of-Freedom Plant and Actuator Models for Underactuated Vehicles
+## [Harris](./harris-et-al-2023-stable-nullspace-adaptive-parameter-identification-of-6-degree-of-freedom-plant-and-actuator-models.pdf) et al. (2023) – Stable Nullspace Adaptive Parameter Identification of 6 Degree-of-Freedom Plant and Actuator Models for Underactuated Vehicles
 
 **Vehículo:** Iver3 AUV.
 
@@ -224,3 +228,89 @@ Desarrollan una arquitectura completa de navegación, guiado y control para el A
 
 **Aplicabilidad y limitaciones**
 La metodología de control es transferible a un AUV tipo torpedo. Sin embargo, los parámetros hidrodinámicos, las matrices del modelo y las ganancias diseñadas corresponden a MARIUS y no deben trasladarse directamente.
+
+## otras cosas
+En algunos papers vimos que los parámetros hidrodinámicos como los de masa añadida y los de drag se calculan mediante strip theory directamente a partir de la geometría del casco y tal vez las propiedades del fluido y chau. Algunas herramientas que se pueden utilizar son las siguientes.[captayne](https://github.com/cybergalactic/MSS-Capytaine?utm_source=chatgpt.com) y [HyDaMaCa](https://github.com/mseidl92/HyDaMaCa?utm_source=chatgpt.com). El segundo es CFD propiamente dicho mientras que el primero utiliza el BEM (boundary element method)
+
+Igual no nos vamos a enfocar en nada de eso. Vamos a elgir un modelo con parámetros y vamos a utilizar ese y chau.
+
+### Referencia del paper de HRC-AUV para despues
+Es el siguiente ![link](https://www.tandfonline.com/doi/epdf/10.1080/13873954.2012.717226?needAccess=true)
+## Prestero
+Lo siguiente es el resumen del modelo que propondría el Prestero.
+
+### **Ecuación matricial compacta**
+
+\\[ \boxed{ M\dot{\nu}+C(\nu)\nu+D(\nu)\nu+g(\eta) = uL\nu+\tau\_{\mathrm{act}} } \\]
+
+con:
+
+\\[ \nu= \begin{bmatrix}u&v&w&p&q&r\end{bmatrix}^{T} \\]
+
+### **1. Matriz de masa&#x20;**\\(M\\)
+
+\\[ \boxed{M=M\_{RB}+M_A} \\]
+
+**Masa del cuerpo rígido:**
+
+\\[ M\_{RB}= \begin{bmatrix} m&0&0&0&mz_g&0\\\ 0&m&0&-mz_g&0&mx_g\\\ 0&0&m&0&-mx_g&0\\\ 0&-mz_g&0&I\_{xx}+mz_g^2&0&-mx_gz_g\\\ mz_g&0&-mx_g&0&I\_{yy}+m(x_g^2+z_g^2)&0\\\ 0&mx_g&0&-mx_gz_g&0&I\_{zz}+mx_g^2 \end{bmatrix} \\]
+
+**Masa añadida:**
+
+\\[ M_A= \begin{bmatrix} a\_{11}&0&0&0&0&0\\\ 0&a\_{22}&0&0&0&a\_{26}\\\ 0&0&a\_{22}&0&-a\_{26}&0\\\ 0&0&0&a\_{44}&0&0\\\ 0&0&-a\_{26}&0&a\_{55}&0\\\ 0&a\_{26}&0&0&0&a\_{55} \end{bmatrix} \\]
+
+Se utilizaron las aproximaciones:
+
+\\[ a\_{22}=a\_{33},\qquad a\_{55}=a\_{66},\qquad a\_{26}=-a\_{35}. \\]
+
+### **2. Matriz de Coriolis&#x20;**\\(C(\nu)\\)
+
+\\[ \boxed{C(\nu)=C\_{RB}(\nu)+C_A(\nu)} \\]
+
+**Coriolis del cuerpo rígido:**
+
+\\[ C\_{RB}= \begin{bmatrix} 0&-S(P\_{RB})\\\ -S(P\_{RB})&-S(H\_{RB}) \end{bmatrix} \\]
+
+donde:
+
+\\[ P\_{RB}= \begin{bmatrix} m(u+z_gq)\\\ m(v-z_gp+x_gr)\\\ m(w-x_gq) \end{bmatrix} \\]
+
+\\[ H\_{RB}= \begin{bmatrix} (I\_{xx}+mz_g^2)p-mz_gv-mx_gz_gr\\\ (I\_{yy}+m(x_g^2+z_g^2))q+m(z_gu-x_gw)\\\ (I\_{zz}+mx_g^2)r+mx_gv-mx_gz_gp \end{bmatrix} \\]
+
+**Coriolis de masa añadida:**
+
+\\[ C_A= \begin{bmatrix} 0&-S(P_A)\\\ -S(P_A)&-S(H_A) \end{bmatrix} \\]
+
+con:
+
+\\[ P_A= \begin{bmatrix} a\_{11}u\\\ a\_{22}v+a\_{26}r\\\ a\_{22}w-a\_{26}q \end{bmatrix}, \qquad H_A= \begin{bmatrix} a\_{44}p\\\ -a\_{26}w+a\_{55}q\\\ a\_{26}v+a\_{55}r \end{bmatrix}. \\]
+
+La matriz antisimétrica se define como:
+
+\\[ S(x)= \begin{bmatrix} 0&-x_3&x_2\\\ x_3&0&-x_1\\\ -x_2&x_1&0 \end{bmatrix}. \\]
+
+### **3. Matriz de drag&#x20;**\\(D(\nu)\\)
+
+\\[ \boxed{ D(\nu)= \begin{bmatrix} -X\_{u|u|}|u|&0&0&0&0&0\\\ 0&-Y\_{v|v|}|v|&0&0&0&-Y\_{r|r|}|r|\\\ 0&0&-Z\_{w|w|}|w|&0&-Z\_{q|q|}|q|&0\\\ 0&0&0&-K\_{p|p|}|p|&0&0\\\ 0&0&-M\_{w|w|}|w|&0&-M\_{q|q|}|q|&0\\\ 0&-N\_{v|v|}|v|&0&0&0&-N\_{r|r|}|r| \end{bmatrix} } \\]
+
+Representa exclusivamente el drag cuadrático.
+
+### **4. Matriz de lift&#x20;**\\(L\\)
+
+\\[ \boxed{ \tau\_{L,\mathrm{ext}}=uL\nu } \\]
+
+\\[ \boxed{ L= \begin{bmatrix} 0&0&0&0&0&0\\\ 0&Y\_{uv,l}+Y\_{uv,f}&0&0&0&Y\_{ur,f}\\\ 0&0&Z\_{uw,l}+Z\_{uw,f}&0&Z\_{uq,f}&0\\\ 0&0&0&0&0&0\\\ 0&0&M\_{uw,l}+M\_{uw,f}&0&M\_{uq,f}&0\\\ 0&N\_{uv,l}+N\_{uv,f}&0&0&0&N\_{ur,f} \end{bmatrix} } \\]
+
+Representa las contribuciones de lift del cuerpo y de los fins. Las contribuciones con subíndice \\(a\\) quedan incorporadas en \\(C_A\\).
+
+### **5. Vector hidrostático&#x20;**\\(g(\eta)\\)
+
+\\[ \boxed{g(\eta)=-\tau\_{HS}(\eta)} \\]
+
+Representa las fuerzas y momentos de restauración hidrostática.
+
+### **6. Vector de actuadores**
+
+\\[ \boxed{ \tau\_{\mathrm{act}}= \begin{bmatrix} X\_{\mathrm{prop}}\\\ Y\_{uu\delta_r}u^2\delta_r\\\ Z\_{uu\delta_s}u^2\delta_s\\\ K\_{\mathrm{prop}}\\\ M\_{uu\delta_s}u^2\delta_s\\\ N\_{uu\delta_r}u^2\delta_r \end{bmatrix} } \\]
+
+Representa las acciones de los propulsores y de las superficies de control.
